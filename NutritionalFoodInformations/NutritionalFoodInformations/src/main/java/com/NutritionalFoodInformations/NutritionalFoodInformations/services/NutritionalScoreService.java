@@ -18,7 +18,7 @@ public class NutritionalScoreService {
     @Autowired
     NutritionalInformations nutritionalInformations;
 
-    public NutritionalInformations getNutritionalInformation(String barCode) throws ParseException, UnsupportedEncodingException {
+    public NutritionalInformations getNutritionalInformation(String barCode) throws ParseException {
 
         //ghat3yt l api dyal open food facts
 
@@ -38,13 +38,23 @@ public class NutritionalScoreService {
         JSONObject agribalyseObj = (JSONObject) ecoscore_dataObj.get("agribalyse");
         String name = (String) agribalyseObj.get("name_fr");
 
+        JSONObject nutriments = (JSONObject) product.get("nutriments");
+        Long energy = (Long) nutriments.get("energy_100g");
+        Double fat = (Double) nutriments.get("saturated-fat_100g");
+        Double sugar = (Double) nutriments.get("sugars_100g");
+        Double salt = (Double) nutriments.get("salt_100g");
+
         nutritionalInformations.setBarCode(barCode);
         nutritionalInformations.setName(name);
 
         // hadi dyal l7sab
-        nutritionalInformations.setNutritionScore(0.0);
+        nutritionalInformations.setNutritionScore(computeNutritionalScore(energy, fat, sugar, salt));
 
         return nutritionalInformations;
+    }
+
+    private Double computeNutritionalScore(Long energy, Double fat, Double sugar, Double salt) {
+        return 0.0;
     }
 
 }
