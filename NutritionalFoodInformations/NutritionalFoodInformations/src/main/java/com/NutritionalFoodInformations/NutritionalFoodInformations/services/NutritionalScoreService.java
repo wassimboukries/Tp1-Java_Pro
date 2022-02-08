@@ -15,17 +15,18 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class NutritionalScoreService {
 
+
     @Autowired
     NutritionalInformations nutritionalInformations;
 
-    public NutritionalInformations getNutritionalInformation(String barCode) throws ParseException {
+    public NutritionalInformations getNutritionalInformation(String barCode) throws ParseException, UnsupportedEncodingException {
 
         //ghat3yt l api dyal open food facts
 
         String host = "https://fr.openfoodfacts.org/api/v0/produit/";
         // Format query for preventing encoding problems
         String query = String.format("s=%s",
-                URLEncoder.encode(barCode, StandardCharsets.UTF_8));
+                URLEncoder.encode(barCode, String.valueOf(StandardCharsets.UTF_8)));
 
         RestTemplate restTemplate = new RestTemplate();
         String Response = restTemplate.getForObject(host + query + ".json", String.class);
@@ -54,6 +55,8 @@ public class NutritionalScoreService {
     }
 
     private Double computeNutritionalScore(Long energy, Double fat, Double sugar, Double salt) {
+
+
         return 0.0;
     }
 
