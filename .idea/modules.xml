@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/NutritionalFoodInformations/NutritionalFoodInformations/NutritionalFoodInformations.iml" filepath="$PROJECT_DIR$/NutritionalFoodInformations/NutritionalFoodInformations/NutritionalFoodInformations.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Tp1-Java_Pro.iml" filepath="$PROJECT_DIR$/.idea/Tp1-Java_Pro.iml" />
+    </modules>
+  </component>
+</project>
