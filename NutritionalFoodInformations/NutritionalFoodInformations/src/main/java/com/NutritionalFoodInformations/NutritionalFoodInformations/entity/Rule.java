@@ -20,7 +20,7 @@ public class Rule {
     private Integer id;
     private String name;
     private Integer points;
-    private Integer min_bound;
+    private double minbound;
     private String component;
 
 

@@ -14,9 +14,9 @@ public class RuleServiceImpl implements RuleService {
     RuleRepository ruleRepository;
 
     @Override
-    public List<Rule> fetchRuleByValue(String elementNutritional, double value)
+    public Rule fetchRuleByValue(String elementNutritional, double value)
     {
-        return ruleRepository.findByNameAndMin_BoundGreaterThan(elementNutritional, value);
+        return ruleRepository.findTopByNameAndMinboundLessThanOrderByMinboundDesc(elementNutritional, value);
     }
 
 }

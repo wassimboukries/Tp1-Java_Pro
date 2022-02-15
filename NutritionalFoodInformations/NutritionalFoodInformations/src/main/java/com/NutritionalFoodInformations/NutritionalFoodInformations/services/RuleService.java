@@ -9,5 +9,5 @@ import java.util.List;
 public interface RuleService {
 
     // Read operation
-    List<Rule> fetchRuleByValue(String elementNutritional, double value);
+    Rule fetchRuleByValue(String elementNutritional, double value);
 }

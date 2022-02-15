@@ -1,9 +1,0 @@
-DROP TABLE IF EXISTS rule;
-
-CREATE TABLE rule (
-  id INT AUTO_INCREMENT  PRIMARY KEY,
-  name VARCHAR(250) NOT NULL,
-  points INT NOT NULL,
-  min_bound INT NOT NULL,
-  component VARCHAR(250) NOT NULL
-);

@@ -1,6 +1,7 @@
 package com.NutritionalFoodInformations.NutritionalFoodInformations.services;
 
 import com.NutritionalFoodInformations.NutritionalFoodInformations.models.NutritionalInformations;
+import com.NutritionalFoodInformations.NutritionalFoodInformations.repository.RuleRepository;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -18,6 +19,9 @@ public class NutritionalScoreService {
 
     @Autowired
     NutritionalInformations nutritionalInformations;
+
+    @Autowired
+    RuleRepository ruleRepository;
 
     public NutritionalInformations getNutritionalInformation(String barCode) throws ParseException, UnsupportedEncodingException {
 
@@ -49,14 +53,17 @@ public class NutritionalScoreService {
         nutritionalInformations.setName(name);
 
         // hadi dyal l7sab
-        nutritionalInformations.setNutritionScore(computeNutritionalScore(energy, fat, sugar, salt));
+        nutritionalInformations.setNutritionScore(computeNegativeNutritionalScore(energy, fat, sugar, salt));
 
         return nutritionalInformations;
     }
 
-    private Double computeNutritionalScore(Long energy, Double fat, Double sugar, Double salt) {
+    private Double computeNegativeNutritionalScore(Long energy, Double fat, Double sugar, Double salt) {
 
-
+        ruleRepository.findTopByNameAndMinboundLessThanOrderByMinboundDesc("energy_100", energy);
+        ruleRepository.findTopByNameAndMinboundLessThanOrderByMinboundDesc("saturated-fat_100g", fat);
+        ruleRepository.findTopByNameAndMinboundLessThanOrderByMinboundDesc("sugars_100g", sugar);
+        ruleRepository.findTopByNameAndMinboundLessThanOrderByMinboundDesc("saturated-fat_100g", salt);
         return 0.0;
     }
 
