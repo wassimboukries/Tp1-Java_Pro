@@ -22,6 +22,4 @@ public class Rule {
     private Integer points;
     private double minbound;
     private String component;
-
-
 }

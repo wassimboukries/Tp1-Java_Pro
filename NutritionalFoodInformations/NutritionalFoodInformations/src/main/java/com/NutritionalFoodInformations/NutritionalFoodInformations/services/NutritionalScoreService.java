@@ -1,5 +1,6 @@
 package com.NutritionalFoodInformations.NutritionalFoodInformations.services;
 
+import com.NutritionalFoodInformations.NutritionalFoodInformations.entity.Rule;
 import com.NutritionalFoodInformations.NutritionalFoodInformations.models.NutritionalInformations;
 import com.NutritionalFoodInformations.NutritionalFoodInformations.repository.RuleRepository;
 import org.json.simple.JSONObject;
@@ -59,11 +60,12 @@ public class NutritionalScoreService {
     }
 
     private Double computeNegativeNutritionalScore(Long energy, Double fat, Double sugar, Double salt) {
-
-        ruleRepository.findTopByNameAndMinboundLessThanOrderByMinboundDesc("energy_100", energy);
-        ruleRepository.findTopByNameAndMinboundLessThanOrderByMinboundDesc("saturated-fat_100g", fat);
-        ruleRepository.findTopByNameAndMinboundLessThanOrderByMinboundDesc("sugars_100g", sugar);
-        ruleRepository.findTopByNameAndMinboundLessThanOrderByMinboundDesc("saturated-fat_100g", salt);
+        Double negativeScore = 0.;
+        Rule a;
+        negativeScore += ruleRepository.findTopByNameAndMinboundLessThanOrderByMinboundDesc("energy_100", energy);
+        negativeScore += ruleRepository.findTopByNameAndMinboundLessThanOrderByMinboundDesc("saturated-fat_100g", fat);
+        negativeScore += ruleRepository.findTopByNameAndMinboundLessThanOrderByMinboundDesc("sugars_100g", sugar);
+        negativeScore += ruleRepository.findTopByNameAndMinboundLessThanOrderByMinboundDesc("saturated-fat_100g", salt);
         return 0.0;
     }
 
