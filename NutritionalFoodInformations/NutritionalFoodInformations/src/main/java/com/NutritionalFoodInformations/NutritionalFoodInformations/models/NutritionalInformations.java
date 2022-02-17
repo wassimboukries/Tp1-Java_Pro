@@ -1,12 +1,20 @@
 package com.NutritionalFoodInformations.NutritionalFoodInformations.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.Id;
+
 @Component
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class NutritionalInformations {
 
-    private static int nextId = 0;
-    private final int id;
+    @Id
+    private int id;
 
     private String barCode;
 
@@ -14,38 +22,9 @@ public class NutritionalInformations {
 
     private Double nutritionScore;
 
-    public NutritionalInformations() {
-        setBarCode("7622210449283");
-        id = nextId++;
-    }
+    private String classe;
 
-    public void setBarCode(String barCode) {
-        this.barCode = barCode;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setNutritionScore(Double nutritionScore) {
-        this.nutritionScore = nutritionScore;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getBarCode() {
-        return barCode;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Double getNutritionScore() {
-        return nutritionScore;
-    }
+    private String color;
 
     @Override
     public String toString() {
@@ -54,6 +33,8 @@ public class NutritionalInformations {
                 ", barCode='" + barCode + '\'' +
                 ", name='" + name + '\'' +
                 ", nutritionScore='" + nutritionScore + '\'' +
+                ", classe='" + classe + '\'' +
+                ", color='" + color + '\'' +
                 '}';
     }
 }

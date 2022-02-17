@@ -14,25 +14,12 @@ import java.io.UnsupportedEncodingException;
 @RestController
 public class NutritionalScoreController {
 
+    @Autowired
     NutritionalScoreService nutritionalScoreService;
 
-    @Autowired
-    private NutritionalScoreController(NutritionalScoreService nutritionalScoreService) {
-        this.nutritionalScoreService = nutritionalScoreService;
-    }
-
     @GetMapping("/product/{barCode}")
-    public ResponseEntity<NutritionalInformations> getNutritionalScore(@PathVariable String barCode) throws UnsupportedEncodingException, ParseException {
-        return ResponseEntity.ok(nutritionalScoreService.getNutritionalInformation(barCode));
-    }
-    @GetMapping("/api")
-    public ResponseEntity getNutritionalScore()
-    {
-        //ghat3yt l api dyal open food facts
-
-        // hadi dyal l7sab
-
-        return ResponseEntity.ok("10");
+    public ResponseEntity<NutritionalInformations> getNutritionalInformations(@PathVariable String barCode) throws UnsupportedEncodingException, ParseException {
+        return ResponseEntity.ok(nutritionalScoreService.getNutritionalInformations(barCode));
     }
 
 }
