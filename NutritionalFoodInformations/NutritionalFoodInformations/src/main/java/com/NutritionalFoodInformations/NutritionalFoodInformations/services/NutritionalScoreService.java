@@ -44,7 +44,7 @@ public class NutritionalScoreService {
             nutritionalInformations.setBarCode(barCode);
             nutritionalInformations.setName(name);
             nutritionalInformations.setNutritionScore(computeNutritionalScore(jsonResponse));
-            setElementClassAndColor(nutritionalInformations);
+            nutritionalInformations.setClassAndColor();
         }
         catch (JSONException e)
         {
@@ -55,26 +55,6 @@ public class NutritionalScoreService {
         return nutritionalInformations;
     }
 
-    public void setElementClassAndColor(NutritionalInformations nutritionalInformations)
-    {
-        Double nutritionScore = nutritionalInformations.getNutritionScore();
-        if (-10 <= nutritionScore && nutritionScore <= -1) {
-            nutritionalInformations.setClasse("Trop Bon");
-            nutritionalInformations.setColor("green");
-        } else if (0 <= nutritionScore && nutritionScore <= 2) {
-            nutritionalInformations.setClasse("Bon");
-            nutritionalInformations.setColor("light green");
-        }else if (3 <= nutritionScore && nutritionScore <= 10) {
-            nutritionalInformations.setClasse("Mangeable");
-            nutritionalInformations.setColor("yellow");
-        }else if (11 <= nutritionScore && nutritionScore <= 18) {
-            nutritionalInformations.setClasse("Mouai");
-            nutritionalInformations.setColor("orange");
-        }else if (19 <= nutritionScore && nutritionScore <= 40) {
-            nutritionalInformations.setClasse("Degueu");
-            nutritionalInformations.setColor("red");
-        }
-    }
     public Double computeNutritionalScore(JSONObject jsonResponse)
     {
         JSONObject nutriments = jsonResponse.getJSONObject("product").getJSONObject("nutriments");
