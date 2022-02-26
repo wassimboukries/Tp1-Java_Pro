@@ -25,16 +25,4 @@ public class NutritionalInformations {
     private String classe;
 
     private String color;
-
-    @Override
-    public String toString() {
-        return "NutritionalInformations{" +
-                "id=" + id +
-                ", barCode='" + barCode + '\'' +
-                ", name='" + name + '\'' +
-                ", nutritionScore='" + nutritionScore + '\'' +
-                ", classe='" + classe + '\'' +
-                ", color='" + color + '\'' +
-                '}';
-    }
 }

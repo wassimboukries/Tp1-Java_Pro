@@ -2,6 +2,7 @@ package com.NutritionalFoodInformations.NutritionalFoodInformations.controllers;
 
 import com.NutritionalFoodInformations.NutritionalFoodInformations.models.NutritionalInformations;
 import com.NutritionalFoodInformations.NutritionalFoodInformations.services.NutritionalScoreService;
+import org.json.JSONException;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class NutritionalScoreController {
     NutritionalScoreService nutritionalScoreService;
 
     @GetMapping("/product/{barCode}")
-    public ResponseEntity<NutritionalInformations> getNutritionalInformations(@PathVariable String barCode) throws UnsupportedEncodingException, ParseException {
+    public ResponseEntity<NutritionalInformations> getNutritionalInformations(@PathVariable String barCode) throws JSONException, UnsupportedEncodingException, ParseException {
         return ResponseEntity.ok(nutritionalScoreService.getNutritionalInformations(barCode));
     }
 

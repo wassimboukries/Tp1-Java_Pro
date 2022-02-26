@@ -2,6 +2,7 @@ package com.NutritionalFoodInformations.NutritionalFoodInformations.services;
 
 import com.NutritionalFoodInformations.NutritionalFoodInformations.models.NutritionalInformations;
 import com.NutritionalFoodInformations.NutritionalFoodInformations.repository.RuleRepository;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -23,7 +24,7 @@ public class NutritionalScoreService {
     @Autowired
     RuleRepository ruleRepository;
 
-    public NutritionalInformations getNutritionalInformations(String barCode) throws ParseException, UnsupportedEncodingException {
+    public NutritionalInformations getNutritionalInformations(String barCode) throws ParseException, JSONException, UnsupportedEncodingException {
 
         String host = "https://fr.openfoodfacts.org/api/v0/produit/";
         // Format query for preventing encoding problems
@@ -35,37 +36,46 @@ public class NutritionalScoreService {
         JSONParser jsonParser = new JSONParser();
         JSONObject jsonResponse = new JSONObject(jsonParser.parse(Response).toString());
 
-        String name = jsonResponse.getJSONObject("product").getJSONObject("ecoscore_data").getJSONObject("agribalyse").getString("name_fr");
+        try
+        {
+            JSONObject product = jsonResponse.getJSONObject("product");
+            String name = product.getJSONObject("ecoscore_data").getJSONObject("agribalyse").getString("name_fr");
 
-        nutritionalInformations.setBarCode(barCode);
-        nutritionalInformations.setName(name);
-        nutritionalInformations.setNutritionScore(computeNutritionalScore(jsonResponse));
-        setElementClassAndColor(nutritionalInformations);
+            nutritionalInformations.setBarCode(barCode);
+            nutritionalInformations.setName(name);
+            nutritionalInformations.setNutritionScore(computeNutritionalScore(jsonResponse));
+            setElementClassAndColor(nutritionalInformations);
+        }
+        catch (JSONException e)
+        {
+            System.out.println("Product " + barCode +" not found !");
+            throw new JSONException("Product " + barCode +" not found !");
+        }
 
         return nutritionalInformations;
     }
 
-    private void setElementClassAndColor(NutritionalInformations nutritionalInformations)
+    public void setElementClassAndColor(NutritionalInformations nutritionalInformations)
     {
-        Double NutritionScore = nutritionalInformations.getNutritionScore();
-        if (-10 <= NutritionScore && NutritionScore <= -1) {
+        Double nutritionScore = nutritionalInformations.getNutritionScore();
+        if (-10 <= nutritionScore && nutritionScore <= -1) {
             nutritionalInformations.setClasse("Trop Bon");
             nutritionalInformations.setColor("green");
-        } else if (0 <= NutritionScore && NutritionScore <= 2) {
+        } else if (0 <= nutritionScore && nutritionScore <= 2) {
             nutritionalInformations.setClasse("Bon");
             nutritionalInformations.setColor("light green");
-        }else if (3 <= NutritionScore && NutritionScore <= 10) {
+        }else if (3 <= nutritionScore && nutritionScore <= 10) {
             nutritionalInformations.setClasse("Mangeable");
             nutritionalInformations.setColor("yellow");
-        }else if (11 <= NutritionScore && NutritionScore <= 18) {
+        }else if (11 <= nutritionScore && nutritionScore <= 18) {
             nutritionalInformations.setClasse("Mouai");
             nutritionalInformations.setColor("orange");
-        }else if (19 <= NutritionScore && NutritionScore <= 40) {
+        }else if (19 <= nutritionScore && nutritionScore <= 40) {
             nutritionalInformations.setClasse("Degueu");
             nutritionalInformations.setColor("red");
         }
     }
-    private Double computeNutritionalScore(JSONObject jsonResponse)
+    public Double computeNutritionalScore(JSONObject jsonResponse)
     {
         JSONObject nutriments = jsonResponse.getJSONObject("product").getJSONObject("nutriments");
 
@@ -80,7 +90,7 @@ public class NutritionalScoreService {
         return computeNegativeNutritionalScore(energy, fat, sugar, salt) - computePositiveNutritionalScore(fiber, proteins);
     }
 
-    private Double computeNegativeNutritionalScore(Double energy, Double fat, Double sugar, Double salt) {
+    public Double computeNegativeNutritionalScore(Double energy, Double fat, Double sugar, Double salt) {
         Double negativeScore = 0.;
 
         negativeScore += ruleRepository.findTopByNameAndMinboundLessThanOrderByMinboundDesc("energy_100g", energy).getPoints();
@@ -91,7 +101,7 @@ public class NutritionalScoreService {
         return negativeScore;
     }
 
-    private Double computePositiveNutritionalScore(Double fiber, Double proteins) {
+    public Double computePositiveNutritionalScore(Double fiber, Double proteins) {
         Double positiveScore = 0.;
 
         positiveScore += ruleRepository.findTopByNameAndMinboundLessThanOrderByMinboundDesc("fiber_100g", fiber).getPoints();
