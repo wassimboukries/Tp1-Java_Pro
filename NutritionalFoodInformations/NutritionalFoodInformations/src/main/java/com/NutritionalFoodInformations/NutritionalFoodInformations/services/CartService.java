@@ -28,7 +28,7 @@ public class CartService {
         List<Product> products = cart.getProducts();
 
         Double cartNutritionScore = 0.;
-        Integer productQuantityTotal = 0;
+        int productQuantityTotal = 0;
 
         for (Product product : products)
         {
@@ -46,24 +46,9 @@ public class CartService {
         double nutritionScore = bd.doubleValue();
 
         cartSynthesis.setNutritionScore(nutritionScore);
-        setCartClass(cartSynthesis);
+        cartSynthesis.setClasse();
 
         return cartSynthesis;
     }
 
-    public void setCartClass(CartSynthesis cartSynthesis)
-    {
-        Double nutritionScore = cartSynthesis.getNutritionScore();
-        if (-10 <= nutritionScore && nutritionScore <= -1) {
-            cartSynthesis.setClasse("Trop Bon");
-        } else if (0 <= nutritionScore && nutritionScore <= 2) {
-            cartSynthesis.setClasse("Bon");
-        }else if (3 <= nutritionScore && nutritionScore <= 10) {
-            cartSynthesis.setClasse("Mangeable");
-        }else if (11 <= nutritionScore && nutritionScore <= 18) {
-            cartSynthesis.setClasse("Mouai");
-        }else if (19 <= nutritionScore && nutritionScore <= 40) {
-            cartSynthesis.setClasse("Degueu");
-        }
-    }
 }
