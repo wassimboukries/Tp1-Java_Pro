@@ -20,7 +20,7 @@ public class NutritionalScoreController {
 
     @GetMapping("/product/{barCode}")
     public ResponseEntity<NutritionalInformations> getNutritionalInformations(@PathVariable String barCode) throws JSONException, UnsupportedEncodingException, ParseException {
-        return ResponseEntity.ok(nutritionalScoreService.getNutritionalInformations(barCode));
+        return ResponseEntity.ok(nutritionalScoreService.getNutritionalInformations(barCode)); // hna nzid message
     }
 
 }

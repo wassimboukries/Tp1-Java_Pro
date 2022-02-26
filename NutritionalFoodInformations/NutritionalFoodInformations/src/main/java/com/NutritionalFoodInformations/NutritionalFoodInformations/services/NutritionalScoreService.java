@@ -48,8 +48,8 @@ public class NutritionalScoreService {
         }
         catch (JSONException e)
         {
-            System.out.println("Product " + barCode +" not found !");
-            throw new JSONException("Product " + barCode +" not found !");
+            System.out.println("Product " + barCode + " not found !");
+            throw new JSONException("Product " + barCode + " not found !");
         }
 
         return nutritionalInformations;

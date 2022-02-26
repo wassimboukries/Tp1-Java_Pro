@@ -1,11 +1,9 @@
-package com.NutritionalFoodInformations.NutritionalFoodInformations.service;
+package com.NutritionalFoodInformations.NutritionalFoodInformations.controller;
 
 import com.NutritionalFoodInformations.NutritionalFoodInformations.models.Cart;
 import com.NutritionalFoodInformations.NutritionalFoodInformations.models.CartSynthesis;
 import com.NutritionalFoodInformations.NutritionalFoodInformations.models.Product;
 import com.NutritionalFoodInformations.NutritionalFoodInformations.services.CartService;
-import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.ThrowableAssert;
 import org.json.JSONException;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
@@ -20,8 +18,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-@Slf4j
-public class CartServiceTests{
+public class CartControllerTests {
 
     @Autowired
     CartService cartService;
@@ -47,20 +44,18 @@ public class CartServiceTests{
 
         CartSynthesis cartSynthesis = cartService.getCartSynthesis(cart1);
 
-        assertThat(cartSynthesis.getNutritionScore()).isEqualTo(5.29);
-        assertThat(cartSynthesis.getClasse()).isEqualTo("Mangeable");
+        assertThat(cartSynthesis.getNutritionScore()).isEqualTo(10.57);
+        assertThat(cartSynthesis.getClasse()).isEqualTo("Mouai");
     }
 
     @Test
     void shouldSendExceptionIfAProductDoesntExist() {
 
-        //CartSynthesis cartSynthesis = cartService.getCartSynthesis(cart1);
-
         assertThatExceptionOfType(new JSONException("At least one product is not found !").getClass())
                 .isThrownBy(() -> {
-                    CartSynthesis cartSynthesis = cartService.getCartSynthesis(cart2);
-                    log.error(String.valueOf(cartSynthesis.getNutritionScore()));
+                    cartService.getCartSynthesis(cart2);
                 });
+
     }
 
 }
