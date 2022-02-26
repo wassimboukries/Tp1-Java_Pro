@@ -1,14 +1,15 @@
 package com.NutritionalFoodInformations.NutritionalFoodInformations.controller;
 
+import com.NutritionalFoodInformations.NutritionalFoodInformations.controllers.CartController;
 import com.NutritionalFoodInformations.NutritionalFoodInformations.models.Cart;
 import com.NutritionalFoodInformations.NutritionalFoodInformations.models.CartSynthesis;
 import com.NutritionalFoodInformations.NutritionalFoodInformations.models.Product;
-import com.NutritionalFoodInformations.NutritionalFoodInformations.services.CartService;
 import org.json.JSONException;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 public class CartControllerTests {
 
     @Autowired
-    CartService cartService;
+    CartController cartController;
 
     Cart cart1 = Cart
             .builder()
@@ -35,26 +36,26 @@ public class CartControllerTests {
             .builder()
             .email("ayoub.ismail@pascal.com")
             .products(new ArrayList<>(
-                    asList(new Product("7622210449283", 8)
+                    asList(new Product("7622201133337", 8)
                             , new Product("4125796267741", 2))))
             .build();
 
     @Test
     void shouldGetCorrectCartSynthesis() throws UnsupportedEncodingException, ParseException {
 
-        CartSynthesis cartSynthesis = cartService.getCartSynthesis(cart1);
+        ResponseEntity<CartSynthesis> cartSynthesis = cartController.getCartSynthesis(cart1);
 
-        assertThat(cartSynthesis.getNutritionScore()).isEqualTo(10.57);
-        assertThat(cartSynthesis.getClasse()).isEqualTo("Mouai");
+        assertThat(cartSynthesis.getBody().getNutritionScore()).isEqualTo(10.57);
+        assertThat(cartSynthesis.getBody().getClasse()).isEqualTo("Mouai");
     }
 
     @Test
-    void shouldSendExceptionIfAProductDoesntExist() {
+    void shouldComputeScoreForOnlyExistingProducts() throws UnsupportedEncodingException, ParseException {
 
-        assertThatExceptionOfType(new JSONException("At least one product is not found !").getClass())
-                .isThrownBy(() -> {
-                    cartService.getCartSynthesis(cart2);
-                });
+        ResponseEntity<CartSynthesis> cartSynthesis = cartController.getCartSynthesis(cart2);
+
+        assertThat(cartSynthesis.getBody().getNutritionScore()).isEqualTo(9);
+        assertThat(cartSynthesis.getBody().getClasse()).isEqualTo("Mangeable");
 
     }
 

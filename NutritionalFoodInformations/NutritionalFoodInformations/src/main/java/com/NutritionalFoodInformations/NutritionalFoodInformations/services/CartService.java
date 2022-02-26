@@ -36,13 +36,12 @@ public class CartService {
         Integer productQuantityTotal = 0;
 
         for (Product product : products) {
-            productQuantityTotal += product.getQuantity();
 
             try {
                 productsNutritionalScore += nutritionalScoreService.getNutritionalInformations(product.getBarCode()).getNutritionScore() * product.getQuantity();
+                productQuantityTotal += product.getQuantity();
             } catch (JSONException e) {
                 log.error("Product " + product.getBarCode() + " not found !");
-                throw new JSONException("Product " + product.getBarCode() + " not found !");
             }
         }
 
