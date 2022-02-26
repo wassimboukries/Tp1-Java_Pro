@@ -20,7 +20,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-@Slf4j
 public class CartServiceTests{
 
     @Autowired
@@ -59,7 +58,6 @@ public class CartServiceTests{
         assertThatExceptionOfType(new JSONException("At least one product is not found !").getClass())
                 .isThrownBy(() -> {
                     CartSynthesis cartSynthesis = cartService.getCartSynthesis(cart2);
-                    log.error(String.valueOf(cartSynthesis.getNutritionScore()));
                 });
     }
 

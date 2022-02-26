@@ -3,7 +3,6 @@ package com.NutritionalFoodInformations.NutritionalFoodInformations.services;
 
 import com.NutritionalFoodInformations.NutritionalFoodInformations.models.Cart;
 import com.NutritionalFoodInformations.NutritionalFoodInformations.models.CartSynthesis;
-import com.NutritionalFoodInformations.NutritionalFoodInformations.models.NutritionalInformations;
 import com.NutritionalFoodInformations.NutritionalFoodInformations.models.Product;
 import org.json.JSONException;
 import org.json.simple.parser.ParseException;
@@ -11,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
-import java.text.DecimalFormat;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Service
@@ -40,7 +40,12 @@ public class CartService {
             }
         }
 
-        cartSynthesis.setNutritionScore(Double.valueOf(new DecimalFormat("##.##").format(cartNutritionScore / productQuantityTotal)));
+        double result = cartNutritionScore / productQuantityTotal;
+
+        BigDecimal bd = new BigDecimal(result).setScale(2, RoundingMode.HALF_UP);
+        double nutritionScore = bd.doubleValue();
+
+        cartSynthesis.setNutritionScore(nutritionScore);
         setCartClass(cartSynthesis);
 
         return cartSynthesis;
