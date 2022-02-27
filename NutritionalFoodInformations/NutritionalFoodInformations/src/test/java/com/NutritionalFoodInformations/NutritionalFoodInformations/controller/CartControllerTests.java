@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.http.HttpStatus.OK;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 public class CartControllerTests {
@@ -65,6 +66,8 @@ public class CartControllerTests {
 
         ResponseEntity<CartSynthesis> cartSynthesis = cartController.getCartSynthesis(cart1);
 
+        assertThat(cartSynthesis.getStatusCode()).isEqualTo(OK);
+
         assertThat(cartSynthesis.getBody().getNutritionScore()).isEqualTo(10.57);
         assertThat(cartSynthesis.getBody().getClasse()).isEqualTo("Mouai");
     }
@@ -73,6 +76,8 @@ public class CartControllerTests {
     void shouldComputeScoreForOnlyExistingProducts() throws UnsupportedEncodingException, ParseException {
 
         ResponseEntity<CartSynthesis> cartSynthesis = cartController.getCartSynthesis(cart2);
+
+        assertThat(cartSynthesis.getStatusCode()).isEqualTo(OK);
 
         assertThat(cartSynthesis.getBody().getNutritionScore()).isEqualTo(9);
         assertThat(cartSynthesis.getBody().getClasse()).isEqualTo("Mangeable");
@@ -84,6 +89,8 @@ public class CartControllerTests {
 
         ResponseEntity<CartSynthesis> cartSynthesis = cartController.getCartSynthesis(cart3);
 
+        assertThat(cartSynthesis.getStatusCode()).isEqualTo(OK);
+
         assertThat(cartSynthesis.getBody().getNutritionScore()).isEqualTo(null);
         assertThat(cartSynthesis.getBody().getClasse()).isEqualTo(null);
     }
@@ -92,6 +99,8 @@ public class CartControllerTests {
     void shouldReturnNullIfCartIsEmpty() throws UnsupportedEncodingException, ParseException {
 
         ResponseEntity<CartSynthesis> cartSynthesis = cartController.getCartSynthesis(emptyCart);
+
+        assertThat(cartSynthesis.getStatusCode()).isEqualTo(OK);
 
         assertThat(cartSynthesis.getBody().getNutritionScore()).isEqualTo(null);
         assertThat(cartSynthesis.getBody().getClasse()).isEqualTo(null);
