@@ -10,8 +10,7 @@ import org.springframework.http.ResponseEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.*;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 class NutritionalScoreControllerTests {
@@ -44,7 +43,7 @@ class NutritionalScoreControllerTests {
 				"/product/111111"
 				, NutritionalInformations.class);
 
-		assertThat(response.getStatusCode()).isEqualTo(INTERNAL_SERVER_ERROR);
+		assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
 	}
 
 }
