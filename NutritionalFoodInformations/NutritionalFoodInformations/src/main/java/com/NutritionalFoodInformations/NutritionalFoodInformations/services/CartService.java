@@ -38,7 +38,7 @@ public class CartService {
             return new CartSynthesis();
         }
 
-
+        // Computing nutritional score for all products and summing their quantities
         for (Product product : products) {
 
             try {
@@ -49,6 +49,7 @@ public class CartService {
             }
         }
 
+        // if cart contains products that are not found
         if (productQuantityTotal != 0) {
             double result = productsNutritionalScore / productQuantityTotal;
 
