@@ -4,13 +4,14 @@ import com.NutritionalFoodInformations.NutritionalFoodInformations.controllers.C
 import com.NutritionalFoodInformations.NutritionalFoodInformations.models.Cart;
 import com.NutritionalFoodInformations.NutritionalFoodInformations.models.CartSynthesis;
 import com.NutritionalFoodInformations.NutritionalFoodInformations.models.Product;
-import org.json.JSONException;
 import org.json.simple.parser.ParseException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import static org.springframework.http.HttpStatus.OK;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class CartControllerTests {
 
     @Autowired
@@ -52,7 +54,7 @@ public class CartControllerTests {
 
     Cart emptyCart = Cart
             .builder()
-            .email("ayoub.ismail@pascal.com")
+            .email("skuza.oumaima@mekka.com")
             .products(new ArrayList<>())
             .build();
 
@@ -85,7 +87,7 @@ public class CartControllerTests {
     }
 
     @Test
-    void shouldReturnNullIfAllProductsWhereNotFound() throws UnsupportedEncodingException, ParseException {
+    void shouldReturnNullIfAllProductsWereNotFound() throws UnsupportedEncodingException, ParseException {
 
         ResponseEntity<CartSynthesis> cartSynthesis = cartController.getCartSynthesis(cart3);
 

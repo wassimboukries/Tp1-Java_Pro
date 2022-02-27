@@ -7,6 +7,8 @@ import com.NutritionalFoodInformations.NutritionalFoodInformations.models.Nutrit
 import com.NutritionalFoodInformations.NutritionalFoodInformations.models.Product;
 import com.NutritionalFoodInformations.NutritionalFoodInformations.services.CartService;
 import com.NutritionalFoodInformations.NutritionalFoodInformations.services.NutritionalScoreService;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

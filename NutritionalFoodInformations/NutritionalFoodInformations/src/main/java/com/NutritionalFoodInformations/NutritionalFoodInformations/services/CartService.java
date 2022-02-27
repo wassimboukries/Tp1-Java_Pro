@@ -4,6 +4,8 @@ package com.NutritionalFoodInformations.NutritionalFoodInformations.services;
 import com.NutritionalFoodInformations.NutritionalFoodInformations.models.Cart;
 import com.NutritionalFoodInformations.NutritionalFoodInformations.models.CartSynthesis;
 import com.NutritionalFoodInformations.NutritionalFoodInformations.models.Product;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.simple.parser.ParseException;
@@ -35,7 +37,7 @@ public class CartService {
 
 
         if (products == null ) {
-            return new CartSynthesis();
+            return cartSynthesis;
         }
 
         // Computing nutritional score for all products and summing their quantities
@@ -56,10 +58,12 @@ public class CartService {
             // taking only two decimals digits form the score
             BigDecimal bd = new BigDecimal(result).setScale(2, RoundingMode.HALF_UP);
             nutritionScore = bd.doubleValue();
+
+            cartSynthesis.setNutritionScore(nutritionScore);
+            cartSynthesis.setClasse();
+
         }
 
-        cartSynthesis.setNutritionScore(nutritionScore);
-        cartSynthesis.setClasse();
 
         return cartSynthesis;
     }
