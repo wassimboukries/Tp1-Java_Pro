@@ -6,7 +6,6 @@ import org.json.JSONException;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +21,7 @@ public class NutritionalScoreController {
     @GetMapping("/product/{barCode}")
     public ResponseEntity<NutritionalInformations> getNutritionalInformations(@PathVariable String barCode) throws JSONException, UnsupportedEncodingException, ParseException {
         try {
-            return ResponseEntity.ok(nutritionalScoreService.getNutritionalInformations(barCode));
+            return ResponseEntity.ok(nutritionalScoreService.getNutritionalInformation(barCode));
         } catch (JSONException e) {
             throw new ProductNotFoundException();
         }

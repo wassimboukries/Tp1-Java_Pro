@@ -24,7 +24,7 @@ public class NutritionalScoreService {
     @Autowired
     RuleRepository ruleRepository;
 
-    public NutritionalInformations getNutritionalInformations(String barCode) throws ParseException, JSONException, UnsupportedEncodingException {
+    public NutritionalInformations getNutritionalInformation(String barCode) throws ParseException, JSONException, UnsupportedEncodingException {
 
         String host = "https://fr.openfoodfacts.org/api/v0/produit/";
         // Format query for preventing encoding problems
@@ -33,6 +33,7 @@ public class NutritionalScoreService {
         RestTemplate restTemplate = new RestTemplate();
         String Response = restTemplate.getForObject(host + query + ".json", String.class);
 
+        // Parse the response into a JSON format for better handling
         JSONParser jsonParser = new JSONParser();
         JSONObject jsonResponse = new JSONObject(jsonParser.parse(Response).toString());
 
@@ -43,6 +44,7 @@ public class NutritionalScoreService {
 
             nutritionalInformations.setBarCode(barCode);
             nutritionalInformations.setName(name);
+            // Compute the nutritional score (as the substraction of the negative score from the positive one)
             nutritionalInformations.setNutritionScore(computeNutritionalScore(jsonResponse));
             nutritionalInformations.setClassAndColor();
         }
@@ -59,11 +61,13 @@ public class NutritionalScoreService {
     {
         JSONObject nutriments = jsonResponse.getJSONObject("product").getJSONObject("nutriments");
 
+        // getting the infos needed for the negative score
         Double energy = nutriments.getDouble("energy_100g");
         Double fat = nutriments.getDouble("saturated-fat_100g");
         Double sugar = nutriments.getDouble("sugars_100g");
         Double salt = nutriments.getDouble("salt_100g");
 
+        // getting the infos needed for the positive score
         Double fiber = nutriments.getDouble("fiber_100g");
         Double proteins = nutriments.getDouble("proteins_100g");
 
@@ -89,6 +93,4 @@ public class NutritionalScoreService {
 
         return positiveScore;
     }
-
-
 }

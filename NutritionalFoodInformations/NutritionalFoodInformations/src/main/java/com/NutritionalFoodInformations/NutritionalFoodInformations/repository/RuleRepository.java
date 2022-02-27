@@ -9,5 +9,11 @@ import java.util.List;
 @Repository
 public interface RuleRepository extends JpaRepository<Rule, Integer> {
 
-    Rule findTopByNameAndMinboundLessThanOrderByMinboundDesc(String elementNutritional, double valeur);
+    /**
+     *  finding the score of a particular value of a particular nutritional element
+     * @param elementNutritional the name of the nutritional element
+     * @param value the numerical value of the nutritional element in the product
+     * @return
+     */
+    Rule findTopByNameAndMinboundLessThanOrderByMinboundDesc(String elementNutritional, double value);
 }

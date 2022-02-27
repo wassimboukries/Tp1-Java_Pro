@@ -42,7 +42,7 @@ public class CartService {
         for (Product product : products) {
 
             try {
-                productsNutritionalScore += nutritionalScoreService.getNutritionalInformations(product.getBarCode()).getNutritionScore() * product.getQuantity();
+                productsNutritionalScore += nutritionalScoreService.getNutritionalInformation(product.getBarCode()).getNutritionScore() * product.getQuantity();
                 productQuantityTotal += product.getQuantity();
             } catch (JSONException e) {
                 log.error("Product " + product.getBarCode() + " not found !");
