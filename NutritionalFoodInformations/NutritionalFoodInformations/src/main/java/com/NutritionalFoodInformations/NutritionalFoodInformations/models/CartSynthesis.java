@@ -18,6 +18,9 @@ public class CartSynthesis {
 
     public void setClasse()
     {
+        if (nutritionScore == null) {
+            return;
+        }
         Double nutritionScore = getNutritionScore();
         if (-10 <= nutritionScore && nutritionScore <= -1) {
             setClasse("Trop Bon");

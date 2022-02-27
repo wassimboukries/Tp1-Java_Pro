@@ -21,7 +21,7 @@ public class CartController {
     @Autowired
     CartService cartService;
 
-    @GetMapping("/CartSynthesis")
+    @PostMapping("/CartSynthesis")
     public ResponseEntity<CartSynthesis> getCartSynthesis(@RequestBody Cart cart) throws UnsupportedEncodingException, ParseException {
         return ResponseEntity.ok(cartService.getCartSynthesis(cart));
     }

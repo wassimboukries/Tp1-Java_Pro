@@ -29,11 +29,13 @@ public class CartService {
 
         List<Product> products = cart.getProducts();
 
+        Double nutritionScore = null;
+        double productsNutritionalScore = 0.;
+        Integer productQuantityTotal = 0;
+
+
         if (products.isEmpty())
             return cartSynthesis;
-
-        Double productsNutritionalScore = 0.;
-        Integer productQuantityTotal = 0;
 
         for (Product product : products) {
 
@@ -45,10 +47,12 @@ public class CartService {
             }
         }
 
-        double result = productsNutritionalScore / productQuantityTotal;
+        if (productQuantityTotal != 0) {
+            double result = productsNutritionalScore / productQuantityTotal;
 
-        BigDecimal bd = new BigDecimal(result).setScale(2, RoundingMode.HALF_UP);
-        double nutritionScore = bd.doubleValue();
+            BigDecimal bd = new BigDecimal(result).setScale(2, RoundingMode.HALF_UP);
+            nutritionScore = bd.doubleValue();
+        }
 
         cartSynthesis.setNutritionScore(nutritionScore);
         cartSynthesis.setClasse();
