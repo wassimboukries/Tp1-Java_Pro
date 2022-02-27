@@ -52,6 +52,12 @@ public class CartControllerTests {
     Cart emptyCart = Cart
             .builder()
             .email("ayoub.ismail@pascal.com")
+            .products(new ArrayList<>())
+            .build();
+
+    Cart nullProductsCart = Cart
+            .builder()
+            .email("ayoub.ismail@pascal.com")
             .build();
 
     @Test
@@ -86,6 +92,17 @@ public class CartControllerTests {
     void shouldReturnNullIfCartIsEmpty() throws UnsupportedEncodingException, ParseException {
 
         ResponseEntity<CartSynthesis> cartSynthesis = cartController.getCartSynthesis(emptyCart);
+
+        assertThat(cartSynthesis.getBody().getNutritionScore()).isEqualTo(null);
+        assertThat(cartSynthesis.getBody().getClasse()).isEqualTo(null);
+    }
+
+    @Test
+    void shouldReturnNullIfCartHasNullProducts() throws UnsupportedEncodingException, ParseException {
+
+        ResponseEntity<CartSynthesis> cartSynthesis = cartController.getCartSynthesis(nullProductsCart);
+
+        assertThat(cartSynthesis.getStatusCode()).isEqualTo(OK);
 
         assertThat(cartSynthesis.getBody().getNutritionScore()).isEqualTo(null);
         assertThat(cartSynthesis.getBody().getClasse()).isEqualTo(null);
