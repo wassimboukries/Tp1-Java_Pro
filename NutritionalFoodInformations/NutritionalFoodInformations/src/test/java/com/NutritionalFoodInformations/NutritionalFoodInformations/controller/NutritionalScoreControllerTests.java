@@ -20,7 +20,7 @@ class NutritionalScoreControllerTests {
 	ApiRestTemplate apiRestTemplate;
 
 	@Test
-	void souldHaveCorrectInfos() {
+	void shouldHaveCorrectInformation() {
 
 		ResponseEntity<NutritionalInformations> response =  apiRestTemplate.getRequestToComputeScore(
 				"/product/7622210449283"
@@ -30,6 +30,7 @@ class NutritionalScoreControllerTests {
 
 		NutritionalInformations nutritionalInformations = response.getBody();
 
+		assert nutritionalInformations != null;
 		assertThat(nutritionalInformations.getNutritionScore()).isEqualTo(10);
 		assertThat(nutritionalInformations.getClasse()).isEqualTo("Mangeable");
 		assertThat(nutritionalInformations.getColor()).isEqualTo("yellow");
@@ -37,7 +38,7 @@ class NutritionalScoreControllerTests {
 	}
 
 	@Test
-	void shouldSendErrorIfProductDoesntExist() throws JSONException
+	void shouldSendErrorIfProductDoesNotExist() throws JSONException
 	{
 		ResponseEntity<NutritionalInformations> response =  apiRestTemplate.getRequestToComputeScore(
 				"/product/111111"
