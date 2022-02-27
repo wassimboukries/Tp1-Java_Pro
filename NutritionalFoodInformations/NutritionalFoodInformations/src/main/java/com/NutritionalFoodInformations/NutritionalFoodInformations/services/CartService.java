@@ -52,6 +52,7 @@ public class CartService {
         if (productQuantityTotal != 0) {
             double result = productsNutritionalScore / productQuantityTotal;
 
+            // taking only two decimals digits form the score
             BigDecimal bd = new BigDecimal(result).setScale(2, RoundingMode.HALF_UP);
             nutritionScore = bd.doubleValue();
         }
