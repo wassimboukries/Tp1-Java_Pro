@@ -19,6 +19,7 @@ public class CartSynthesis {
     public void setClasse()
     {
         if (nutritionScore == null) {
+            setClasse(null);
             return;
         }
         Double nutritionScore = getNutritionScore();

@@ -34,8 +34,10 @@ public class CartService {
         Integer productQuantityTotal = 0;
 
 
-        if (products.isEmpty())
-            return cartSynthesis;
+        if (products == null ) {
+            return new CartSynthesis();
+        }
+
 
         for (Product product : products) {
 

@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 
@@ -40,6 +41,19 @@ public class CartControllerTests {
                             , new Product("4125796267741", 2))))
             .build();
 
+    Cart cart3 = Cart
+            .builder()
+            .email("ayoub.ismail@pascal.com")
+            .products(new ArrayList<>(
+                    asList(new Product("78787878787", 8)
+                            , new Product("56565656565", 2))))
+            .build();
+
+    Cart emptyCart = Cart
+            .builder()
+            .email("ayoub.ismail@pascal.com")
+            .build();
+
     @Test
     void shouldGetCorrectCartSynthesis() throws UnsupportedEncodingException, ParseException {
 
@@ -57,6 +71,24 @@ public class CartControllerTests {
         assertThat(cartSynthesis.getBody().getNutritionScore()).isEqualTo(9);
         assertThat(cartSynthesis.getBody().getClasse()).isEqualTo("Mangeable");
 
+    }
+
+    @Test
+    void shouldReturnNullIfAllProductsWhereNotFound() throws UnsupportedEncodingException, ParseException {
+
+        ResponseEntity<CartSynthesis> cartSynthesis = cartController.getCartSynthesis(cart3);
+
+        assertThat(cartSynthesis.getBody().getNutritionScore()).isEqualTo(null);
+        assertThat(cartSynthesis.getBody().getClasse()).isEqualTo(null);
+    }
+
+    @Test
+    void shouldReturnNullIfCartIsEmpty() throws UnsupportedEncodingException, ParseException {
+
+        ResponseEntity<CartSynthesis> cartSynthesis = cartController.getCartSynthesis(emptyCart);
+
+        assertThat(cartSynthesis.getBody().getNutritionScore()).isEqualTo(null);
+        assertThat(cartSynthesis.getBody().getClasse()).isEqualTo(null);
     }
 
 }
